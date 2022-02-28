@@ -4,7 +4,8 @@
       type="input"
       v-bind="$attrs"
       v-model="phone"
-      @keyDown="keyDown"
+      @keydown="keyDown"
+      @paste="doPaste"
       maxlength="14"
     />
   </div>
@@ -31,7 +32,18 @@ export default /*#__PURE__*/ {
     keyDown(e) {
       var curchr = this.phone.length;
 
-      if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+      if ((e.key == "v" || e.key == "c" || e.key == "x") && e.ctrlKey) {
+        return;
+      }
+
+      if (
+        !Number.isInteger(parseInt(e.key)) &&
+        e.key != "Backspace" &&
+        e.Key != "Delete" &&
+        e.key != "ArrowLeft" &&
+        e.key != "ArrowRight" &&
+        e.key != "Delete"
+      ) {
         e.preventDefault();
         return;
       }
@@ -47,10 +59,22 @@ export default /*#__PURE__*/ {
 
       this.doFormat();
     },
+    doPaste(e) {
+      let paste = (e.clipboardData || window.clipboardData).getData("text");
+
+      this.phone = paste;
+      e.preventDefault();
+
+      this.doFormat();
+    },
     doFormat() {
       //Filter only numbers from the input
       let cleaned = ("" + this.phone).replace(/\D/g, "");
 
+      if (cleaned.length == 0) {
+        this.phone = "";
+        return;
+      }
       if (cleaned.length == 3) {
         this.phone = "(" + cleaned + ") ";
         return;
