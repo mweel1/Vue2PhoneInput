@@ -15,5 +15,7 @@ export default Vue.extend({
   <div id="app">
     {{ phone }}
     <vue2-phone-input v-model="phone" />
+
+    <button @click="phone = '(949) 555-1213'">Set Phone</button>
   </div>
 </template>

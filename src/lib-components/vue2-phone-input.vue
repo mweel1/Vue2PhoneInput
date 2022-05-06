@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <input
-      type="input"
-      v-bind="$attrs"
-      v-model="phone"
-      @keydown="keyDown"
-      @paste="doPaste"
-      maxlength="14"
-    />
-  </div>
+  <input
+    type="text"
+    v-bind="$attrs"
+    v-model="phone"
+    @keydown="keyDown"
+    @paste="doPaste"
+    maxlength="14"
+  />
 </template>
 
 <script>
@@ -21,6 +19,10 @@ export default /*#__PURE__*/ {
   watch: {
     phone(newVal) {
       this.$emit("input", newVal);
+    },
+    value(newVal) {
+      this.phone = newVal;
+      if (this.phone) this.doFormat();
     },
   },
   created() {
@@ -36,13 +38,18 @@ export default /*#__PURE__*/ {
         return;
       }
 
+      if (e.key == "Home" && e.shiftKey) {
+        return;
+      }
+
       if (
         !Number.isInteger(parseInt(e.key)) &&
         e.key != "Backspace" &&
         e.Key != "Delete" &&
         e.key != "ArrowLeft" &&
         e.key != "ArrowRight" &&
-        e.key != "Delete"
+        e.key != "Delete" &&
+        e.key != "Tab"
       ) {
         e.preventDefault();
         return;
