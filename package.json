@@ -1,6 +1,6 @@
 {
   "name": "vue2-simple-phone-input",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "dist/vue2-phone-input.ssr.js",
   "browser": "dist/vue2-phone-input.esm.js",

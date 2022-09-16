@@ -60,11 +60,23 @@ export default /*#__PURE__*/ {
         return;
       }
 
-      if (e.which == 8) {
-        return;
-      }
-
       this.doFormat();
+
+      if (e.which == 8) {
+        console.log("here");
+
+        if (this.phone.endsWith(" ")) {
+          e.preventDefault();
+          this.phone = this.phone.substring(0, this.phone.length - 3);
+          return;
+        }
+
+        if (this.phone.endsWith("-")) {
+          e.preventDefault();
+          this.phone = this.phone.substring(0, this.phone.length - 2);
+          return;
+        }
+      }
     },
     doPaste(e) {
       let paste = (e.clipboardData || window.clipboardData).getData("text");
